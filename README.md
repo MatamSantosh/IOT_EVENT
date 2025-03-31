@@ -18,20 +18,19 @@ Create a docker-compose.yml file to orchestrate the setup:
 
 Detailed Setup Instructions:
 
-1. **Clone the repository**:
+**Clone the repository**:
    ```bash
    git clone https://github.com/MatamSantosh/IOT_EVENT.git
    cd IOT_EVENT
    ```
-
 	  
-2. **Build and run the Docker containers**:
+**Build and run the Docker containers**:
 Note: Run this command where the docker-compose.yml is located
  ```bash
 docker-compose up --build
  ```
 
-3. #### System Architecture Overview
+#### System Architecture Overview
 ```markdown
 ## System Architecture Overview
 
@@ -43,7 +42,7 @@ The system consists of the following components:
 - **Docker Compose**: Manages container orchestration.
 
 
-4. ### API Documentation
+## API Documentation
 
 ### List All Devices
 - **Endpoint**: `GET /devices`
@@ -56,14 +55,13 @@ The system consists of the following components:
   - `device_id` (string): The ID of the device.
 
 
-5. **Testing and Documentation**
+**Testing and Documentation**
 Manually publish test messages using mosquitto_pub:
 Test Case 1: Valid Message
  Publish a valid message**:
    
    ```bash
    mosquitto_pub -h localhost -t /devices/events -m '{"device_id": "device1", "sensor_type": "temperature", "sensor_value": 23.5, "timestamp": "2025-03-28T12:00:00Z"}'
-
    ```
 Test Case 2: Invalid Message
  Publish an invalid message:
