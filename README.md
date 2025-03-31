@@ -16,7 +16,7 @@ Extend the store_message method to store valid messages in an SQLite database:
 Create a docker-compose.yml file to orchestrate the setup:
 
 
-Detailed Setup Instructions:
+**Detailed Setup Instructions**:
 
 **Clone the repository**:
    ```bash
@@ -40,9 +40,9 @@ The system consists of the following components:
 - **SQLite Database**: Stores device and event data.
 - **Flask REST API**: Provides endpoints for real-time monitoring.
 - **Docker Compose**: Manages container orchestration.
+```
 
-
-## API Documentation
+### API Documentation
 
 ### List All Devices
 - **Endpoint**: `GET /devices`
@@ -55,10 +55,11 @@ The system consists of the following components:
   - `device_id` (string): The ID of the device.
 
 
-**Testing and Documentation**
+
+**Testing and Documentation**:
 Manually publish test messages using mosquitto_pub:
 Test Case 1: Valid Message
- Publish a valid message**:
+ Publish a valid message:
    
    ```bash
    mosquitto_pub -h localhost -t /devices/events -m '{"device_id": "device1", "sensor_type": "temperature", "sensor_value": 23.5, "timestamp": "2025-03-28T12:00:00Z"}'
