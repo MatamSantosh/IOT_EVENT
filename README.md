@@ -6,15 +6,12 @@ Create a Dockerfile for the Mosquitto MQTT broker:
 Install the gmqtt library:
 pip install gmqtt
 
-
 Create a Python script for the MQTT client:
 import asyncio
 import json
 import logging
 import sqlite3
 from gmqtt import Client as MQTTClient
-
-# Configure logging
 logging.basicConfig(filename='mqtt_client.log', level=logging.INFO)
 
 class MQTTListener:
@@ -88,7 +85,6 @@ if __name__ == "__main__":
     asyncio.run(listener.run())
 
 Create a Dockerfile for the Client:
-# Dockerfile for MQTT Client
 FROM python:3.9
 WORKDIR /app
 COPY requirements.txt requirements.txt
@@ -128,7 +124,6 @@ if __name__ == '__main__':
 
 
 Create a Dockerfile for the REST API:
-# Dockerfile for Flask REST API
 FROM python:3.9
 WORKDIR /app
 COPY requirements.txt requirements.txt
@@ -204,6 +199,9 @@ docker-compose up --build
 Manually publish test messages using mosquitto_pub:
 
 mosquitto_pub -h localhost -t /devices/events -m '{"device_id": "device1", "sensor_type": "temperature", "sensor_value": 23.5, "timestamp": "2025-03-28T12:00:00Z"}'
+
+
+7. 7. Access the REST API at 'http://localhost:5000/devices'
 
 
 
