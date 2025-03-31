@@ -1,0 +1,16 @@
+version: '3'
+services:
+  mqtt-broker:
+    build: ./mosquitto_broker
+    ports:
+      - "1883:1883"
+  mqtt-client:
+    build: ./mqtt_client
+    depends_on:
+      - mqtt-broker
+  rest-api:
+    build: ./rest_api
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mqtt-client
