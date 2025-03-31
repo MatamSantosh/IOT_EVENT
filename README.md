@@ -1,9 +1,9 @@
-1. MQTT Broker and Listener
-Set up Mosquitto MQTT Broker
+1. MQTT Broker and Listener:
+Set up Mosquitto MQTT Broker,
 Create a Dockerfile for the Mosquitto MQTT broker:
 
 
-2. Create Python-based MQTT Client
+2. Create Python-based MQTT Client:
 Create a Dockerfile for the Client:
 
 
@@ -18,23 +18,6 @@ Extend the store_message method to store valid messages in an SQLite database:
 	
 5.  Dockerization
 Create a docker-compose.yml file to orchestrate the setup:
-
-version: '3'
-services:
-  mqtt-broker:
-    build: ./mosquitto_broker
-    ports:
-      - "1883:1883"
-  mqtt-client:
-    build: ./mqtt_client
-    depends_on:
-      - mqtt-broker
-  rest-api:
-    build: ./rest_api
-    ports:
-      - "5000:5000"
-    depends_on:
-      - mqtt-client
 	  
 	  
 6. Build and run the Docker containers:
