@@ -59,18 +59,25 @@ The system consists of the following components:
 **Testing and Documentation**:
 - Manually publish test messages using mosquitto_pub:
 - Test Case 1: Valid Message
-- Publish a valid message:
+- 1. Publish a valid message:
    
    ```bash
    mosquitto_pub -h localhost -t /devices/events -m '{"device_id": "device1", "sensor_type": "temperature", "sensor_value": 23.5, "timestamp": "2025-03-28T12:00:00Z"}'
    ```
+- 2. Verify the message is logged:
+
+  Check the mqtt_client.log file for the valid message.
+  
 - Test Case 2: Invalid Message
-- Publish an invalid message:
+- 2. Publish an invalid message:
 
    ```bash
    mosquitto_pub -h localhost -t /devices/events -m '{"device_id": "device1", "sensor_type": "temperature"}'
 
    ```
+- 2. Verify the message is logged:
+
+Check the mqtt_client.log file for the error.
 
 
 6. **Access the REST API**: at 'http://localhost:5000/devices'
