@@ -1,2 +1,1 @@
 gmqtt
-sqlite3
