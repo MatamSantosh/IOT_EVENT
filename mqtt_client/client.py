@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+import sqlite3
 from gmqtt import Client as MQTTClient
 
 # Configure logging
@@ -13,6 +14,29 @@ class MQTTListener:
         self.client.on_message = self.on_message
         self.broker_host = broker_host
         self.broker_port = broker_port
+        self.setup_database()
+
+    def setup_database(self):
+        conn = sqlite3.connect('iot_events.db')
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS Devices (
+                device_id TEXT PRIMARY KEY,
+                last_seen TEXT
+            )
+        ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS Events (
+                event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                device_id TEXT,
+                sensor_type TEXT,
+                sensor_value REAL,
+                timestamp TEXT,
+                FOREIGN KEY (device_id) REFERENCES Devices (device_id)
+            )
+        ''')
+        conn.commit()
+        conn.close()
 
     def on_connect(self, client, flags, rc, properties):
         logging.info("Connected to MQTT Broker")
@@ -21,7 +45,7 @@ class MQTTListener:
     def on_message(self, client, topic, payload, qos, properties):
         message = json.loads(payload)
         if self.validate_message(message):
-            self.process_message(message)
+            self.store_message(message)
         else:
             logging.error(f"Invalid message: {message}")
 
@@ -29,8 +53,19 @@ class MQTTListener:
         required_keys = {"device_id", "sensor_type", "sensor_value", "timestamp"}
         return required_keys.issubset(message.keys())
 
-    def process_message(self, message):
-        logging.info(f"Valid message received: {message}")
+    def store_message(self, message):
+        conn = sqlite3.connect('iot_events.db')
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO Devices (device_id, last_seen) VALUES (?, ?)
+            ON CONFLICT(device_id) DO UPDATE SET last_seen=excluded.last_seen
+        ''', (message['device_id'], message['timestamp']))
+        cursor.execute('''
+            INSERT INTO Events (device_id, sensor_type, sensor_value, timestamp)
+            VALUES (?, ?, ?, ?)
+        ''', (message['device_id'], message['sensor_type'], message['sensor_value'], message['timestamp']))
+        conn.commit()
+        conn.close()
 
     async def connect(self):
         await self.client.connect(self.broker_host, self.broker_port)
