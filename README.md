@@ -66,10 +66,10 @@ The system consists of the following components:
    ```
 - 2. Verify the message is logged:
 
-  Check the mqtt_client.log file for the valid message.
+     Check the mqtt_client.log file for the valid message.
   
 - Test Case 2: Invalid Message
-- 2. Publish an invalid message:
+- 1. Publish an invalid message:
 
    ```bash
    mosquitto_pub -h localhost -t /devices/events -m '{"device_id": "device1", "sensor_type": "temperature"}'
@@ -77,7 +77,7 @@ The system consists of the following components:
    ```
 - 2. Verify the message is logged:
 
-Check the mqtt_client.log file for the error.
+     Check the mqtt_client.log file for the error.
 
 
 6. **Access the REST API**: at 'http://localhost:5000/devices'
